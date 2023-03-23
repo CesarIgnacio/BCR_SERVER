@@ -1,23 +1,26 @@
 header.header
-  nav.nav.nav--tours
-    a.nav__el(href='/Monk_Parakeet') Monk Parakeet
-    a.nav__el(href='/Fiddle_Crabs') Fiddle Crabs
-    a.nav__el(href='/Projects') Past/Current Projects 
-    a.nav__el(href='/Involved') Get Involve Now
 
-  .header__logo
-    a(href='/')
-      img.nav__el(,src='/img/logo-white.png' alt='BCR LAB logo')
-  nav.nav.nav--user
-    a.nav__el(href='/login') Log in
-    a.nav__el.nav__el--cta(href='#') Sign up
-  //- nav.nav.nav--user
-  //-   if user
-  //-     a.nav__el.nav__el--logout Log out
-  //-     a.nav__el(href='/me')
-  //-       img.nav__user-img(src=`/img/users/${user.photo}` alt=`Photo of ${user.name}`)
-  //-       span= user.name.split(' ')[0]
-  //-   else
-  //-     a.nav__el(href='/login') Log in
-  //-     a.nav__el.nav__el--cta(href='#') Sign up
-      
+  nav.nav
+    ul.nav__links 
+      li.nav__item 
+        a.nav__link(href='#section--1') Monk Parakeet
+      li.nav__item
+        a.nav__link(href='#section--2') Fiddle Crabs
+      li.nav__item 
+        a.nav__link(href='#section--3') Past/Current Projects 
+      li.nav__item
+        a.nav__link(href='#section--4') Get Involved Now
+      li.nav__item 
+        a.nav__link.nav__link--btn.btn--show-modal(href='#') Log In
+
+  .header__tittle 
+    h1 
+      span.highlight Did</span> you<br>
+      span.highlight Know?
+    
+    h4 There are Monk Parakeet and Fiddle Crabs in New York City
+    button.btn--text.btn--scroll-to Learn more &DownArrow;
+    img.header__img(src='hero.png' alt='Minimalist bird items')
+    img.header__img(src='Fiddles-Crabas.jpg' alt='Minimalist crabs items')
+
+

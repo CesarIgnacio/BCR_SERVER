@@ -1,44 +1,47 @@
-//Express Framework for Node.js
-const express = require('express');
-const path = require('path');
-const morgan = require('morgan');
+var createError = require('http-errors');
+var express = require('express');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
 
-//import routes
-const viewsRouter = require('./routes/viewsRoutes');
-const animalRouter = require('./routes/animalRoutes');
-// const userRouter = require('./routes/userRoutes');
+var viewsRouter = require('./routes/viewsRoutes');
+var usersRouter = require('./routes/users');
 
-//start express app
-const app = express();
+var app = express();
 
-//Serving static files outside the routes. From Root
-app.use(express.static(`${__dirname}/public`));
-//Morgan, loggin Middleware to CONSOLE for development
-if (process.env.NODE_ENV === 'development') {
-  app.use(morgan('dev'));
-}
-//Pug engine to render webpages templates
-app.set('view engine', 'pug');
-//template  folder location for Pug
+// view engine setup
 app.set('views', path.join(__dirname, 'views'));
-//Json middleware.Body Parser. Incoming Request
-app.use(express.json());
-//request time middleware
-app.use((req, res, next) => {
-  req.requestTime = new Date().toISOString();
+app.set('view engine', 'pug');
 
-  //go to the next middleware
-  next();
+// To display the pictures
+// gotten from: https://stackoverflow.com/questions/49945339/inserting-image-in-pug-template-engine
+// don't know if works
+//app.use('pictures', express.static(process.cwd() + 'pictures'));
+app.use(express.static('pictures'))
+
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/', viewsRouter);
+app.use('/users', usersRouter);
+
+// catch 404 and forward to error handler
+app.use(function (req, res, next) {
+  next(createError(404));
 });
 
-//MOUNTING THE ROUTERS
-//If you are in Root go to the viewRoutes(MiddleWare for Routes)
-app.use('/', viewsRouter);
-//If you are in animal node, go to the animalroutes
-app.use('/api/v1/animal', animalRouter);
-//user Route
-// app.use('/api/v1/users', userRouter);
-//Model
+// error handler
+app.use(function (err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-//export this program
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
+
 module.exports = app;
